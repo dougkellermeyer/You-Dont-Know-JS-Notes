@@ -27,4 +27,5 @@ baz(); // 2
 * This clearly demonstrates **closure**, because `bar()`is accessing its orignal lexical scope but is being executed outside of its lexical scope - by invoking `baz()` which executes `bar()`
   * Another way to think about **closure** is that `bar()` still has access to its original scope, **that reference is closure**
 
--------**Stopped at `Loops + Closure`**---------
+## Loops & Closure
+
