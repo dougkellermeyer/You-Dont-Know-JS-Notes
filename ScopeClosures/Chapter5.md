@@ -29,3 +29,74 @@ baz(); // 2
 
 ## Loops & Closure
 
+* Let's take a look at one of the more simple loops the `for-loop`:
+    ```javascript
+
+    for (var i=1; i<=5; i++) {
+	setTimeout( function timer(){
+		console.log( i );
+	}, i*1000 );
+    }
+    ```
+    * At first glance, you might think that the console would print 1,2,3,4,5...and you would be wrong. It actually prints 6 out 5 times, every 1 second. 
+      * Hmm but why??
+      * Because the loop's terminating condition is when `i` is NOT less than or equal to 5, the first time this is true is 6. 
+      * So, this means that the **timeout callbacks** are running **AFTER** the completion of the loop, and hence 6 is printed out 5 times. 
+    
+    * So how would we make the `for-loop` print out 1-5, on 1 second intervals? Perhaps we could use an IIFE to provide the `setTimeout` fuction with it's own scope. 
+
+    ```javascript
+    for (var i=1; i<=5; i++) {
+        (function(){
+            setTimeout( function timer(){
+                console.log( i ); // 6 6 6 6 6 
+            }, i*1000);
+        })();
+    }
+    ```
+    * So, even though we've given each timeout function callback has it's own scope it **still** doesn't give us what we want. WHY?
+    * It turns out, even though it has it's own scope, it's still an emtpy scope...it needs **something** more in order to be useful...
+
+    * Let's try this: 
+
+    ```javascript
+    //IIFE version, giving each timeout function callback its own per-iteration scope
+
+    for (var i=1; i<=5; i++) {
+        (function(){
+            var j = i;
+            setTimeout( function timer(){
+                console.log( j ); //1 2 3 4 5 
+            }, j*1000 );
+        })();
+    }
+    ```
+    * If you look closely, you'll notice that we provided our IIFE it's own variable `j`, or a copy of `i` for each iteration - neat huh?
+
+* So this works, but it's still kinda messy though right? Like do we really need an IIFE here? 
+* Nope! Remember how `let` lets us hijack the scope block and declares the variable right in the block? We'll that my friends is a wonderful thing for loops. Check it out: 
+
+    ```javascript
+
+    for (var i=1; i<=5; i++) {
+        let j = i; // 
+        setTimeout( function timer(){
+            console.log( j ); //1,2,3,4,5
+        }, j*1000 );
+    }
+
+    ```
+* Now if think that was cool, it's even **cooler** when `let` is used in the head of a `for-loop`. It turns out that that the variable will not only be declared for the block but for **each** iteration! This gives us a much cleaner code and really sheds light on why we use `let` in loops:
+
+    ```javascript
+    for (let i=1; i<=5; i++) {
+	setTimeout( function timer(){
+		console.log( i ); //1,2,3,4,5
+	}, i*1000 );
+    }
+    ```
+* Now for those of you that learned about `for-loops` before **scope** this might not seem that groundbreaking. You probably were like me and just thought "when I do a `for-loop`, I use `let` instead of `var`. Hopefully you'll have a Eureka moment like I did!
+
+----
+
+# Stopped at **Block Scope Revisited**
