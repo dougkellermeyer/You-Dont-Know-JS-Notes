@@ -16,3 +16,6 @@ for (var ii=1; ii<=5; ii++) {
 		}, j*500 );
 	})();
 }
+
+//still kinda messy though right? Like do we really need an IIFE here?
+//Nope! Remember how let lets us use

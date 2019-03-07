@@ -97,6 +97,34 @@ baz(); // 2
     ```
 * Now for those of you that learned about `for-loops` before **scope** this might not seem that groundbreaking. You probably were like me and just thought "when I do a `for-loop`, I use `let` instead of `var`. Hopefully you'll have a Eureka moment like I did!
 
-----
+## Modules
 
-# Stopped at **Block Scope Revisited**
+* Modules are a code pattern that utiltize closure. 
+
+```javascript
+function CoolModule() {
+	var something = "cool";
+	var another = [1, 2, 3];
+
+	function doSomething() {
+		console.log( something );
+	}
+
+	function doAnother() {
+		console.log( another.join( " ! " ) );
+	}
+
+	return {
+		doSomething: doSomething,
+		doAnother: doAnother
+	};
+}
+
+var foo = CoolModule();
+
+foo.doSomething(); // cool
+foo.doAnother(); // 1 ! 2 ! 3
+```
+
+---
+Stopped at "This is the pattern in JavaScript we call module. The most common way of implementing the module pattern is often called "Revealing Module", and it's the variation we present here."
