@@ -98,8 +98,13 @@ baz(); // 2
 * Now for those of you that learned about `for-loops` before **scope** this might not seem that groundbreaking. You probably were like me and just thought "when I do a `for-loop`, I use `let` instead of `var`. Hopefully you'll have a Eureka moment like I did!
 
 ## Modules
+* The module is a code pattern that utiltize closure to create independent sections of code. 
 
-* Modules are a code pattern that utiltize closure. 
+* **There are two "requirements" for the module pattern to be exercised:**
+
+  1. There must be an outer enclosing function, and it must be invoked at least once (each time creates a new module instance).
+
+  0. The enclosing function must return back at least one inner function, so that this inner function has closure over the private scope, and can access and/or modify that private state.
 
 ```javascript
 function CoolModule() {
@@ -127,4 +132,11 @@ foo.doAnother(); // 1 ! 2 ! 3
 ```
 
 ---
-Stopped at "This is the pattern in JavaScript we call module. The most common way of implementing the module pattern is often called "Revealing Module", and it's the variation we present here."
+* You'll notice that `CoolModule()` function is invoked with `var foo = CoolModule()`, which is necessary for a module instance to be created. 
+* The `return` object acts as a **public API for our module**, in that it references the inner functions (`doSomething` and `doAnother`) but **NOT the inner data variables** (`something`, `another`).
+  * You might be wondering how `foo.doSomething()` and `foo.doAnother()` are able to gain access to the inner variables then right??
+  * The **key** is that the object `return` value is assinged to the variable `foo`. This allows us to access the property methods on the "API", like this: 
+  ```javascript
+    foo.doSomething(); // cool
+  ```
+
