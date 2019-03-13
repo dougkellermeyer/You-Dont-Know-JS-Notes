@@ -102,9 +102,9 @@ baz(); // 2
 
 * **There are two "requirements" for the module pattern to be exercised:**
 
-  1. There must be an outer enclosing function, and it must be invoked at least once (each time creates a new module instance).
+  1. There must be an **outer enclosing function**, and it must be **invoked** at least once (each time creates a new module instance).
 
-  0. The enclosing function must return back at least one inner function, so that this inner function has closure over the private scope, and can access and/or modify that private state.
+  0. **The enclosing function must return back at least one inner function**, so that this inner function has closure over the private scope, and can access and/or modify that private state.
 
 ```javascript
 function CoolModule() {
@@ -140,3 +140,52 @@ foo.doAnother(); // 1 ! 2 ! 3
     foo.doSomething(); // cool
   ```
 
+* Modules are just functions, so they can receive parameters, see below:
+    ```javascript
+    function CoolModule(id) {
+        function identify() {
+            console.log( id );
+        }
+
+        return {
+            identify: identify
+        };
+    }
+
+    var foo1 = CoolModule( "foo 1" );
+    var foo2 = CoolModule( "foo 2" );
+
+    foo1.identify(); // "foo 1"
+    foo2.identify(); // "foo 2"
+    ```
+
+* You can also name the object you are returning as your "public API":
+    ```javascript
+    var foo = (function CoolModule(id) {
+	function change() {
+		// modifying the public API
+		publicAPI.identify = identify2;
+	}
+
+	function identify1() {
+		console.log( id );
+	}
+
+	function identify2() {
+		console.log( id.toUpperCase() );
+	}
+
+	var publicAPI = {
+		change: change,
+		identify: identify1
+	};
+
+	return publicAPI;
+    })( "foo module" );
+
+    foo.identify(); // foo module
+    foo.change();
+    foo.identify(); // FOO MODULE
+    ```
+
+* By retaining an **inner reference** (`foo.identify()`) to the public API object inside your module instance, you can modify that module instance from the inside, including adding and removing methods, properties, and changing their values
