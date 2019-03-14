@@ -188,4 +188,128 @@ foo.doAnother(); // 1 ! 2 ! 3
     foo.identify(); // FOO MODULE
     ```
 
-* By retaining an **inner reference** (`foo.identify()`) to the public API object inside your module instance, you can modify that module instance from the inside, including adding and removing methods, properties, and changing their values
+* By retaining an **inner reference** (`foo.identify()`) to the public API object inside your module instance, you can modify that module instance from the inside, including adding and removing methods, properties, and changing their values.
+  * This could be used to use `foo` function to generate new data and return
+  * **This is NOT really used that often**
+
+### An API for Modules
+
+* Let's take a lok at how we might create a module that provides two exposed functions that act like a "module API":
+    ```javascript
+    var MyModules = (function Manager() {
+        var modules = {};
+
+        function define(name, deps, impl) {
+            for (var i=0; i<deps.length; i++) {
+                deps[i] = modules[deps[i]];
+            }
+            modules[name] = impl.apply( impl, deps );
+        }
+
+        function get(name) {
+            return modules[name];
+        }
+
+        return {
+            define: define,
+            get: get
+        };
+    })();
+    ```
+
+* There's a lot going on here so let's break it down:
+    ```javascript
+    var MyModules = (function Manager() {
+        // Since this is never returned out of the closure, it's essentially a  "private variable"
+        // `modules` is being used here to store all of the modules that get defined
+        var modules = {};
+
+        // This function instantiates your module and stores it in `modules` under the given `name`
+        function define(name, deps, impl) {
+            // Spin through all of the declared dependencies (`deps`) and load them from `modules`
+            for (var i=0; i<deps.length; i++) {
+                deps[i] = modules[deps[i]];
+            }
+            // `impl` is the function being passed in that will create your module. It is essentially the closure you're creating that contains your module's code. 
+
+                //another way to think about `impl` the outer function of your module
+
+            // its signature should match the list of dependencies passed in under `deps`
+
+            // This line will call your "module definition function" (`impl`), passing in all of the requested dependencies
+            // It will then save it to `modules`, under the key `name`
+            modules[name] = impl.apply( impl, deps );
+        }
+
+        // This basically asks the private variable `modules` for whatever was saved in the key `name`
+        function get(name) {
+            return modules[name];
+        }
+
+        // Only expose `get` and `define` to the outside world
+        // `modules` can only be manipulated through those two functions
+        return {
+            define: define,
+            get: get
+        };
+    })();
+
+    ```
+    * By only exposing `define` and `get` in the `return` of our module, we are encapsulating the inner functions. 
+      * In other words, we can manipulate our module from outside it, but we don't have to clutter up the rest of the code with the inner functions and their respective logic.
+    
+    * A more generic version of the **module definition function** or `impl` is: 
+    ```javascript
+    MyModules.define(
+        // name
+        'thisModule',
+        // deps
+        ['someOtherModule'],
+        // impl
+        function thisModule(someOtherModule) {
+            var moduleResult = doStuff();
+            return moduleResult;
+        }
+    );
+    ```
+
+### Defining Modules
+
+Keeping the code above in mind, how would we go about naming our modules? Let's take a look: 
+
+* It should also be noted that ES6 goes about this a litte bit differently - we'll explore that later.
+
+    ```javascript
+        //Let's start by defining a module called 'bar'. The emtpy array [], is where we would include external dependencies for this module. Because this is the first module we are defining, it's emtpy.
+        MyModules.define( "bar", [], function(){
+        function hello(who) {
+            return "Let me introduce: " + who;
+        }
+
+        return {
+            hello: hello
+        };
+        } );
+
+        MyModules.define( "foo", ["bar"], function(bar){
+            var hungry = "hippo";
+
+            function awesome() {
+                console.log( bar.hello( hungry ).toUpperCase() );
+            }
+
+            return {
+                awesome: awesome
+            };
+        } );
+
+        var bar = MyModules.get( "bar" );
+        var foo = MyModules.get( "foo" );
+
+        console.log(
+            bar.hello( "hippo" )
+        ); // Let me introduce: hippo
+
+        foo.awesome(); // LET ME INTRODUCE: HIPPO
+    ```
+
