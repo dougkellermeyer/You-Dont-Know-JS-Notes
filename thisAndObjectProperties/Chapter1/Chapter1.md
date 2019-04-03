@@ -20,7 +20,7 @@
   * That's somewhat obvious because `func()` doesn't know about `prop` but what we're interested in is the **how**
   * As long as the code is NOT in `strict mode`, then `this` defaults to the global object. This (man that's annoying) is how `func()` is able to share `prop` with test and hence the `console.log` works
 
-* In summary
+* In summary:
   - **Short version**:
     - `function()` - this -> global
     - `obj.function` - this -> `obj`
@@ -39,6 +39,12 @@
         var refToFunc = test.func;
         console.log(refToFunc);
     ```
+
+
+
+
+
+
 
 
 * Here's a another example: 
@@ -71,5 +77,54 @@
 
 * There's a good bit going on there, so let's break it down:
   * After skimming through this, you may or may not be familiar with the `.call()` method
-    ### The `.call()` method allows for a function belonging to one object to be assigned and called for a different object
+    ## The `.call()` method allows for a function belonging to one object to be assigned and called for a different object
   * `call()` provides a new value of `this` to the function. One benefit of doing this (see what I did there), is that you can write a method once and then inherit it from another object, instead of having to rewrite the method for the new object
+  * In this example, `this` is actually `foo`
+    - basic idea: `function.call(newThis, ...)` this -> `newThis`
+    - In the above example, we are calling the `identify()` function using `call()` and then we are providing the object we'd like to assign/add to that function, which is represented by the `this`.
+     - So, when we see this:
+     ```javascript
+    identify.call(me);
+     ``` 
+    We are calling the `identify` function, and passing in the `me` object ("Doug") in for `this` in the `return` of the function:
+    ```javascript
+    return this.name.toUpperCase(); //`this` is now the me object
+    //me.name.toUpperCase() is simply "Doug".toUpperCase() or "DOUG"
+    ```
+      Here's a good video for the `call()` function - https://www.youtube.com/watch?v=CCb96W92A54
+
+    * In case you need another example (from - https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch1.md):
+    ```javascript
+    function foo(num) {
+            console.log( "foo: " + num );
+
+            // keep track of how many times `foo` is called
+            // Note: `this` IS actually `foo` now, based on
+            // how `foo` is called (see below)
+            this.count++;
+    }
+
+    foo.count = 0;
+
+    var i;
+
+    for (i=0; i<10; i++) {
+        if (i > 5) {
+            // using `call(..)`, we ensure the `this`
+            // points at the function object (`foo`) itself
+            foo.call( foo, i );
+        }
+    }
+    // foo: 6
+    // foo: 7
+    // foo: 8
+    // foo: 9
+
+    // how many times was `foo` called?
+    console.log( foo.count ); // 4
+    ```
+
+    * In case that's confusing (which is certainly was for me the first time around), here's what's happening:
+      * We are calling the `foo` method (`foo.call(foo,i)`) and giving it a new `this`, which is `foo`. So when `foo` is being called here, we are assigning `this` as in `this.count++` turns into `foo.count++`. We are also passing in `i` as the argument for the `foo` method. 
+      * This allows `this.count++` to be assigned as `foo.count` and thus when the for loop iterates, we get the printout of `// foo: 6, 7,8,9`, because we're calling `foo()` and passing in `i` each time.
+
