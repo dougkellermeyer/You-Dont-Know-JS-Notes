@@ -16,7 +16,7 @@
     // expected output: 42
   ```
 
-  * If you were to take away the `this` in the `return` of `func()`, then this won't work 
+  * If you took away the `this` in the `return` of `func()`, then this won't work 
   * That's somewhat obvious because `func()` doesn't know about `prop` but what we're interested in is the **how**
   * As long as the code is NOT in `strict mode`, then `this` defaults to the global object. This (man that's annoying) is how `func()` is able to share `prop` with test and hence the `console.log` works
 
