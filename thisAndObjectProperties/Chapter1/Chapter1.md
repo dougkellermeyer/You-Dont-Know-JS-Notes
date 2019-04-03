@@ -21,11 +21,25 @@
   * As long as the code is NOT in `strict mode`, then `this` defaults to the global object. This (man that's annoying) is how `func()` is able to share `prop` with test and hence the `console.log` works
 
 * In summary
-  - Short version:
-   - `function()` - this -> global
-   - `obj.function` - this -> `obj`
-   - `function.call(newThis, ...)` this -> `newThis`
-   - `() => { doStuff }` - this -> whatever `this` is in the surrounding code (it borrows `this` from it's parent closure)
+  - **Short version**:
+    - `function()` - this -> global
+    - `obj.function` - this -> `obj`
+    - `function.call(newThis, ...)` this -> `newThis`
+    - `() => { doStuff }` - this -> whatever `this` is in the surrounding code (it borrows `this` from it's parent closure)
+* Another way to think about `this`, **how you call a function/method**
+  * ```javascript
+        var test = {
+            func: function() {
+                return this;
+            },
+        };
+        // returns `test`
+        console.log(refToFunc);
+        // returns global object
+        var refToFunc = test.func;
+        console.log(refToFunc);
+    ```
+
 
 * Here's a another example: 
 
