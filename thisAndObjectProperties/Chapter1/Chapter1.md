@@ -21,7 +21,7 @@
   * As long as the code is NOT in `strict mode`, then `this` defaults to the global object. This (man that's annoying) is how `func()` is able to share `prop` with test and hence the `console.log` works
 
 
-* Here's a antoher example: 
+* Here's a another example: 
 
     ```javascript
 
