@@ -1,6 +1,6 @@
 //playing around with this and how it works
 
-const giveMeX = () => {
+function giveMeX() {
     return this.x;
 };
 
@@ -9,11 +9,10 @@ const newX = {
 };
 
 const refToGiveMeX = giveMeX.call(newX); // 2
-
 console.log(refToGiveMeX);
 
 
-//example from YouDontKnowJS:
+// ------------------- example from YouDontKnowJS -------------------------
 
 function identify() {
     return this.name.toUpperCase();
