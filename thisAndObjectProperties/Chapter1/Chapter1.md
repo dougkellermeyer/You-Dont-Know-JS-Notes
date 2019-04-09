@@ -94,6 +94,8 @@
       Here's a good video for the `call()` function - https://www.youtube.com/watch?v=CCb96W92A54
 
     * In case you need another example (from - https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch1.md):
+
+    * In this example, `this` is actually `foo`
     ```javascript
     function foo(num) {
             console.log( "foo: " + num );
