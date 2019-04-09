@@ -79,9 +79,9 @@
   * After skimming through this, you may or may not be familiar with the `.call()` method
     ## The `.call()` method allows for a function belonging to one object to be assigned and called for a different object
   * `call()` provides a new value of `this` to the function. One benefit of doing this (see what I did there), is that you can write a method once and then inherit it from another object, instead of having to rewrite the method for the new object
-  * In this example, `this` is actually `foo`
-    - basic idea: `function.call(newThis, ...)` this -> `newThis`
-    - In the above example, we are calling the `identify()` function using `call()` and then we are providing the object we'd like to assign/add to that function, which is represented by the `this`.
+
+  * Basic idea for the above example: `function.call(newThis, ...)` this -> `newThis`
+    - We are calling the `identify()` function using `call()` and then we are providing the object we'd like to assign/add to that function, which is represented by the `this`.
      - So, when we see this:
      ```javascript
     identify.call(me);
