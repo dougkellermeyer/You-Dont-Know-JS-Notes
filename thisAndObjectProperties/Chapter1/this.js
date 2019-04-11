@@ -15,6 +15,7 @@ const newX = {
 };
 
 const refToGiveMeX = giveMeX.call(newX); // 2
+console.log(refToGiveMeX);
 
 //example of obj.function - this = obj
 var pets = {
@@ -37,12 +38,10 @@ function closureTest(){
     const es6ThisExample = () => {
         console.log(this); //global object
     };
+
     return es6ThisExample;
 }
-
-var outer = closureTest();
-
-console.log (outer());
+console.log (closureTest());
 
 
 // ------------------- example from YouDontKnowJS -------------------------
