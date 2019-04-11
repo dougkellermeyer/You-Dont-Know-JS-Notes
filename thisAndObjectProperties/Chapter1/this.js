@@ -35,7 +35,7 @@ function closureTest(){
     this.x = x;
 
     const es6ThisExample = () => {
-        console.log(this); //1
+        console.log(this); //global object
     };
     return es6ThisExample;
 }
