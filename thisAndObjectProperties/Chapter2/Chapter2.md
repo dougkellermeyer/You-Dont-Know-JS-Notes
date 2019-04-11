@@ -39,3 +39,11 @@ baz(); // <-- call-site for `baz`
 
 * You'll also notice **call-stack** in there, which is the stack of functions that have been called to get to the current moment in execution
 
+## Call-site and `this` rules
+
+* There are 4 rules that apply to the **call-site**
+
+### Default Binding 
+* The most common case of function calls are **standalone function invocation** 
+
+
