@@ -39,13 +39,47 @@ baz(); // <-- call-site for `baz`
 
 * You'll also notice **call-stack** in there, which is the stack of functions that have been called to get to the current moment in execution
 
-## Call-site and `this` rules
+
+# Call-site and `this` Binding Rules
 
 * There are 4 rules that apply to the **call-site**
 
-### Default Binding 
+### 1. Default Binding 
 * The most common case of function calls are **standalone function invocation**
 
 * As the name implies, this is the default `this` binding if no other rules apply
+  * Here's a quick example: 
 
+    ```javascript
+    function foo() {
+        console.log( this.a );
+    }
 
+    var a = 2;
+
+    foo(); // 2 -> this is also the call-site for foo()
+    ```
+* So, let's break this down:
+  * Since `a` is defined as a global variable and is part of the **global scope**
+  
+    ```javascript 
+    var a = 2 //global variable
+    ```
+  * When `foo()` is called, `this.a` resolves to the global variable `a` due the **default binding** for `this`, and points `this` to the global object. 
+    * In other words:
+    ```javascript
+    this.a = globalObject.a // or 2!
+    ```
+
+* Now, this assumes that you're **NOT** in `strict mode`. If you were, the **global object** is not eligible for **default binding**
+    ```javascript 
+    function foo() {
+	"use strict";
+
+	console.log( this.a );
+    }
+
+    var a = 2;
+
+    foo(); // TypeError: `this` is `undefined`
+    ```
