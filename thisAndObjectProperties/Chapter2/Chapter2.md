@@ -44,6 +44,8 @@ baz(); // <-- call-site for `baz`
 * There are 4 rules that apply to the **call-site**
 
 ### Default Binding 
-* The most common case of function calls are **standalone function invocation** 
+* The most common case of function calls are **standalone function invocation**
+
+* As the name implies, this is the default `this` binding if no other rules apply
 
 
