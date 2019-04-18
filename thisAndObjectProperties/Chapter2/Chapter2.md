@@ -38,13 +38,14 @@ baz(); // <-- call-site for `baz`
 ```
 
 * You'll also notice **call-stack** in there, which is the stack of functions that have been called to get to the current moment in execution
+  * **It's MUCH faster to review the call-stack in the dev tools of a web browser, as opposed to tracking it manually as we have here**
 
 
 # Call-site and `this` Binding Rules
 
 * There are 4 rules that apply to the **call-site**
 
-### 1. Default Binding 
+## 1. Default Binding 
 * The most common case of function calls are **standalone function invocation**
 
 * As the name implies, this is the default `this` binding if no other rules apply
@@ -83,3 +84,25 @@ baz(); // <-- call-site for `baz`
 
     foo(); // TypeError: `this` is `undefined`
     ```
+## 2. Implicit Binding
+* When there is a **context object** for a function reference, the **Implicit Binding** rule says that it's THAT object which should be used for the function's `this` binding.
+  * So that is a lot of words, sorta confusing right? 
+  * I found it easier to look at an example: 
+  ```javascript
+    function foo() {
+	console.log( this.a );
+    }
+
+    var obj = {
+        a: 2,
+        foo: foo
+    };
+
+    obj.foo(); // 2
+  ```
+  * Looking above, we have `foo()` being called but PRECEDED by the `obj` object here:
+    ```javascript
+    obj.foo();
+    ```
+  * This is important because, `obj` is our **context object** for the `foo()` function, which means `this` is bound to `obj` rather than our `foo()`. 
+    * This explains why we still get `2` when we call `obj.foo()`
