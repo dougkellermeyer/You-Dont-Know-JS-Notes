@@ -104,5 +104,50 @@ baz(); // <-- call-site for `baz`
     ```javascript
     obj.foo();
     ```
-  * This is important because, `obj` is our **context object** for the `foo()` function, which means `this` is bound to `obj` rather than our `foo()`. 
+  * This is important because, `obj` is our **context object** for the `foo()` function, which means `this` is bound to `obj` rather than our `foo()`.
+    * So, `this.a` is equivalent too `obj.a` 
     * This explains why we still get `2` when we call `obj.foo()`
+
+* It's also worth noting that only the **last** level of object property reference chain or the **context object** that matters.
+  * So, if we have two objects that precede the function, only the second/last one is what matters
+  ```javascript
+    function foo() {
+	console.log( this.a );
+    }
+
+    var obj2 = {
+        a: 42,
+        foo: foo
+    };
+
+    var obj1 = {
+        a: 2,
+        obj2: obj2
+    };
+
+    obj1.obj2.foo(); // 42
+  ```
+
+* Often it can **seem like implicit binding**, when in fact, it's just default binding
+    * For example: when we pass a **callback function**
+    ```javascript
+    function foo() {
+	console.log( this.a );
+    }
+
+    function doFoo(fn) {
+        // `fn` is just another reference to `foo`
+
+        fn(); // <-- call-site!
+    }
+
+    var obj = {
+        a: 2,
+        foo: foo
+    };
+
+    var a = "oops, global"; // `a` also property on global object
+
+    doFoo( obj.foo ); // "oops, global"
+    ```
+
