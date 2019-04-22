@@ -21,8 +21,11 @@ function foo() {
     console.log(this);
 }
 
-let arrowFoo = () => foo();
+//------------this is what the arrow function is doing------------------------
+let arrowFoo = () => foo(); // this = obj
 
+//here's what's happening under the hood of the arrow function
+// this is assigned to the 
 function arrowFoo() {
     this // obj;
     foo.call(externalScope);
