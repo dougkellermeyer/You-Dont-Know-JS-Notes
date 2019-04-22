@@ -15,6 +15,7 @@ var obj = {
 
 obj.fook(); // 2
 
+//---------------------some `this` practice---------------------------------------
 
 function foo() {
     console.log(this);

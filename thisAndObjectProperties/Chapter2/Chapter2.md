@@ -1,4 +1,4 @@
-# Chapter 2: `this` Mostly Makes Sense Now!
+# Chapter 2: `this` Makes Sense Now (mostly)!
 
 * From Chapter 1, we learned that `this` is special keyword baked into every function
 
