@@ -150,4 +150,23 @@ baz(); // <-- call-site for `baz`
 
     doFoo( obj.foo ); // "oops, global"
     ```
+* We get the string `"oops, global"` back because `this.a` is referencing the global object 
+
+## 3. Explicit or Hard Binding
+* As we just saw, our function `foo()` loses its `this` binding, as it just defaults back to the default binding
+  * Now that's not to say we can't mutate the object we want to bind to inlcude a reference on itself to the function, and use the property function to implicitly/indirectly bind the `this` to the obj - like THIS: (damn that's annoying)
+    ```javascript
+    function foo() {
+	console.log( this.a );
+    }
+
+    var obj = {
+        a: 2,
+        foo: foo
+    };
+
+    obj.foo(); // 2
+    ```
+* How could we ensure that the function's `this` is bound to the function? 
+
 
