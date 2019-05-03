@@ -4,6 +4,7 @@ function multiply (a,b) {
 
 console.log(multiply(1,5));
 
+//----------------------------------------------//
 function fook() {
     console.log( this.a );
 }
@@ -32,7 +33,7 @@ function arrowFoo() {
 }
 
 arrowFoo.call(obj);
-
+//-----------------------------------------------------------------------------
 let obj = {
     test: function test() {
         console.log(this); //obj
