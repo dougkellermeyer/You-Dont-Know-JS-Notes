@@ -167,6 +167,23 @@ baz(); // <-- call-site for `baz`
 
     obj.foo(); // 2
     ```
-* How could we ensure that the function's `this` is bound to the function? 
+* How could we ensure that the function's `this` is bound to the function? Let's see: 
+  ```javascript
+    function foo() {
+	console.log( this.a );
+    }
+
+    var obj = {
+        a: 2
+    };
+
+    foo.call( obj ); // 2
+  ```  
+  * So, we can **force** `this` to be found to our `obj` by invoking `foo` with *explicit binding*.
+  * You'll notice we used `call()` to do this (really hard to not use this in a sentence), which gives us a new instance of `this`
+
+  
+
+
 
 
