@@ -16,3 +16,20 @@ function hashMap(s){
 }
 
 console.log(hashMap("aabbbc")) // => { a: 2, b: 3, c: 1 }
+
+obj2 = {
+    c: 2
+}
+
+function doo(num){
+    console.log(this.c, num)
+    return this.c + num
+}
+
+var bar = function(){
+    return doo.apply(obj2, arguments)
+}
+
+var d = bar(5,1)
+console.log(d)
+
