@@ -208,7 +208,7 @@ baz(); // <-- call-site for `baz`
     };
 
     var bar = function() {
-        foo.call( obj );
+        foo.call( obj );k
     };
 
     bar(); // 2
@@ -221,6 +221,30 @@ baz(); // <-- call-site for `baz`
 * This variation is known as **hard binding** and focibly invokes `foo` with `obj` binding for `this`
   * In other words, no matter how you invoke `bar()`, it will always manually invoke `foo` with `obj`
 
+* Another way to do this is to create a re-usuable helper to hard bind `this`
+    ```javascript
+    function foo(something) {
+	console.log( this.a, something );
+	return this.a + something;
+    }
+
+    // simple `bind` helper
+    function bind(fn, obj) {
+        return function() {
+            return fn.apply( obj, arguments );
+        };
+    }
+
+    var obj = {
+        a: 2
+    };
+
+    var bar = bind( foo, obj );
+
+    var b = bar( 3 ); // 2 3
+    console.log( b ); // 5
+    ```
+    * We get the same result, however we call `bind` instead of having the `call` included in our invocation of `bar`
 
 
 
