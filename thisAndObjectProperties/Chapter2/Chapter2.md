@@ -246,6 +246,32 @@ baz(); // <-- call-site for `baz`
     ```
     * We get the same result, however we call `bind` instead of having the `call` included in our invocation of `bar`
 
+    * Using a bind helper is so common that it is a built-in utility in ES5/6 as `Function.prototype.bind` like this:
+        ```javascript
+        function foo(something) {
+            console.log( this.a, something );
+            return this.a + something;
+        }
+
+        var obj = {
+            a: 2
+        };
+
+        var bar = foo.bind( obj );
+
+        var b = bar( 3 ); // 2 3
+        console.log( b ); // 5
+        ```
+    * So what's happening here?
+      * Essentially, `bind(..)` returns a new function that is hard-coded to call the original function with the `this` context set as you specified
+      * So for the example above, we have bound `obj` as our `this` when we invoke `foo` here:
+        ```javascript 
+        var bar = foo.bind(obj)
+        ```
+      * Note: As of **ES6**, the hard-bound function produced by `bind(..)` has a `.name` property that derives from the original target function. For example: `bar = foo.bind(..)` should have a `bar.name` value of `"bound foo"`, which is the function call name that should show up in a **stack trace**.
 
 
+## 4. `new` Binding
+//talk about how `new` doesn't mean what it does it OO languages (Java) and how it just means any function with `new` in front of the function (constructor)
 
+//what is a contstructor? A **constructor call** is a function invoked with `new` in front and includes these baked in:
