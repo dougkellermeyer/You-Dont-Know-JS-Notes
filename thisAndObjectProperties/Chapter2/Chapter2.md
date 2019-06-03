@@ -180,7 +180,7 @@ baz(); // <-- call-site for `baz`
     foo.call( obj ); // 2
   ```  
   * So, we can **force** `this` to be found to our `obj` by invoking `foo` with *explicit binding*.
-  * You'll notice we used `call()` to do this (really hard to not use this in a sentence), which gives us a new instance of `this` that we can assign to the `obj` instead of the global variable `a`
+  * You'll notice we used `call()` to do this, which gives us a new instance of `this` that we can assign to the `obj` instead of the global variable `a`
 
 * So that's cool and all but that still doesn't solve our problem of a function "losing" it's `this` binding, as we saw with the example when we passed a callback function: 
   ```javascript
