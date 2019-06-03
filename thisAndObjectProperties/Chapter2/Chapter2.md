@@ -177,7 +177,7 @@ baz(); // <-- call-site for `baz`
         a: 2
     };
 
-    foo.call( obj ); // 2
+    foo.call(obj); // 2
   ```  
   * So, we can **force** `this` to be found to our `obj` by invoking `foo` with *explicit binding*.
   * You'll notice we used `call()` to do this, which gives us a new instance of `this` that we can assign to the `obj` instead of the global variable `a`
@@ -197,7 +197,29 @@ baz(); // <-- call-site for `baz`
 
     setTimeout( obj.foo, 100 ); // "oops, global"
   ```
+* So how can we ensure that `this` is bound to our `obj`? Let's use a variation of **explicit binding**: 
+    ```javascript
+    function foo() {
+	console.log( this.a );
+    }
 
+    var obj = {
+        a: 2
+    };
+
+    var bar = function() {
+        foo.call( obj );
+    };
+
+    bar(); // 2
+    setTimeout( bar, 100 ); // 2
+
+    // `bar` hard binds `foo`'s `this` to `obj`
+    // so that it cannot be overriden
+    bar.call( window ); // 2
+    ```
+* This variation is known as **hard binding** and focibly invokes `foo` with `obj` binding for `this`
+  * In other words, no matter how you invoke `bar()`, it will always manually invoke `foo` with `obj`
 
 
 
