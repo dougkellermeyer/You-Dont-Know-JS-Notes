@@ -15,3 +15,17 @@ function dial(...grandma) {
 	console.log(grandma);
 }
 dial(8, 6, 7, 5, 3, 0, 9);
+
+// you can replace apply() with spread syntax (...)
+
+function sum(x, y, z) {
+    return x + y + z;
+  }
+  
+  const numberss = [1, 2, 3];
+  
+  console.log(sum(...numberss)); //using spread syntax
+  // expected output: 6
+  
+  console.log(sum.apply(null, numberss)); //using apply
+  // expected output: 6
