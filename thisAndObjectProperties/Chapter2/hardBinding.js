@@ -8,27 +8,25 @@ var obj = {
 	a: 2
 };
 
-var bar = function() {
+var baz = function() {
     return foo.apply(obj, arguments); //hard binding obj and this to foo
     //remember the format for apply is func.apply(thisArg, [argsArray])
     //the arguments above is the arguments array that is built into all functions 
     //essentially, arguments is the array 
 };
 
-var b = bar( 3 ); // => 2 3 . This is the console.log() from line 3
+var b = baz( 3 ); // => 2 3 . This is the console.log() from line 3
 console.log( b ); // => 5
 
 //--------------------another example of hard binding-------------
-obj2 = {
-    c: 2
+function doo(){
+    console.log(arguments) //=> [Arguments] { '0': 5, '1': 2, '2': 1 }
+    console.log(this.c )
+	let sumOfArgs = [...arguments].reduce((sum, x) => sum + x); // 5 + 2 + 1 = 8
+    return this.c + sumOfArgs; // 2 + 8 
 }
 
-function doo(...args){
-    console.log(args) //=> [Arguments] { '0': 5, '1': 2, '2': 1 }
-    console.log(this.c)
-    return this.c + args.reduce((a,b)=> a +b)
-}
-
+var obj2 = { c: 2 };
 var bar = function(){
     return doo.apply(obj2, arguments)
 }
