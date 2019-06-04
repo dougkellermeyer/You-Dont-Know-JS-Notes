@@ -20,16 +20,16 @@ console.log( b ); // => 5
 
 //--------------------another example of hard binding-------------
 function doo(){
-    console.log(arguments) //=> [Arguments] { '0': 5, '1': 2, '2': 1 }
-    console.log(this.c )
+    console.log(arguments) // [Arguments] { '0': 5, '1': 2, '2': 1 }
+    console.log(this.c ) // 2
 	let sumOfArgs = [...arguments].reduce((sum, x) => sum + x); // 5 + 2 + 1 = 8
     return this.c + sumOfArgs; // 2 + 8 
 }
 
 var obj2 = { c: 2 };
 var bar = function(){
-    return doo.apply(obj2, arguments)
+    return doo.apply(obj2, arguments) //hard binding obj to doo, so the `this` is the global this rather than for doo
 }
 
 var d = bar(5,2,1)
-console.log(d) //=> 10
+console.log(d) //=> 10 (2+8)
